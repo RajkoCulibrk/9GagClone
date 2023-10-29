@@ -33,9 +33,9 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)] 
     public async Task<IActionResult> GetUserData()
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = User.GetUserId();
         
-        var user = await _userService.GetUserDataAsync(userId);
+        var user = await _userService.GetUserById(userId);
 
         if (user == null)
         {
@@ -71,5 +71,48 @@ public class UsersController : ControllerBase
             // Log the exception (ex)
             return StatusCode(500, "Internal server error occurred.");
         }
+    }
+
+    [Authorize]
+    [HttpPost("update-profile")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))] 
+    [ProducesResponseType(StatusCodes.Status404NotFound)] 
+    public async Task<IActionResult> UpdateProfileData (UpdateUserDto payload)
+    {
+        var currentlyLoggedInUserId = User.GetUserId();
+        
+        var user = await _userService.GetUserById(currentlyLoggedInUserId);
+
+        await _userService.UpdateProfile(user, payload);
+
+        return Ok(_mapper.Map<UserDto>(user));
+    }
+    
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FriendDto))] 
+    [ProducesResponseType(StatusCodes.Status404NotFound)] 
+    [Authorize]
+    [HttpPost("add-remove-friend/{friendId}")]
+    public async Task<IActionResult> AddRemoveFriend (int friendId)
+    {
+        var userId = User.GetUserId();
+        
+        var user = await _userService.AddRemoveFriend(userId, friendId);
+        
+
+        return Ok(_mapper.Map<FriendDto>(user));
+    }
+    
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<FriendDto>))] 
+    [ProducesResponseType(StatusCodes.Status404NotFound)] 
+    [Authorize]
+    [HttpGet("get-friends")]
+    public async Task<IActionResult> GetFriends ()
+    {
+        var userId = User.GetUserId();
+        
+        var friends = await _userService.GetFriends(userId);
+        
+
+        return Ok(_mapper.Map<List<FriendDto>>(friends));
     }
 }
