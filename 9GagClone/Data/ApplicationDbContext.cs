@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Post> Posts { get; set; }
     public DbSet<Friendship> Friendships { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

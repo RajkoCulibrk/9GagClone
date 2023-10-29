@@ -73,6 +73,11 @@ public class UserService : IUserService
 
     public async Task<User> AddRemoveFriend(int userId, int friendId)
     {
+        if (userId == friendId)
+        {
+            throw new Exception("You cannot befriend yourself");
+        }
+        
         var user = await _context.Users.Include(u => u.Friends).FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null)
         {

@@ -2,6 +2,7 @@ using System.Text;
 using _9GagClone.Data;
 using _9GagClone.Helpers;
 using _9GagClone.Services.AuthService;
+using _9GagClone.Services.PostsService;
 using _9GagClone.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<ImageService>(provider =>
     new ImageService(builder.Environment.ContentRootPath));
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<IAuthService, AuthService>(); 
+builder.Services.AddScoped<IPostsService, PostsService>(); 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
