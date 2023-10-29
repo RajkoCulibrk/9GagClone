@@ -1,4 +1,5 @@
 ﻿using _9GagClone.Data;
+using _9GagClone.Dtos;
 using _9GagClone.Helpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -71,13 +72,9 @@ public class UserService : IUserService
         return updated;
     }
 
-    public async Task<User> AddRemoveFriend(int userId, int friendId)
+    public async Task<User> UnFriendUser(int userId, int friendId)
     {
-        if (userId == friendId)
-        {
-            throw new Exception("You cannot befriend yourself");
-        }
-        
+
         var user = await _context.Users.Include(u => u.Friends).FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null)
         {
@@ -91,20 +88,16 @@ public class UserService : IUserService
         }
 
         var existingFriendship = user.Friends.FirstOrDefault(f => f.Friend == friend);
+        var existingFriendship2 = user.Friends.FirstOrDefault(f => f.Friend == user);
 
-        if (existingFriendship == null)
+        if (existingFriendship == null || existingFriendship2 == null)
         {
-            var newFriendship = new Friendship()
-            {
-                Friend = friend,
-                User = user
-            };
-
-            user.Friends.Add(newFriendship);
+            throw new Exception($"You are not friends with user with id: {friendId}");
         }
         else
         {
             user.Friends.Remove(existingFriendship);
+            user.Friends.Remove(existingFriendship2);
         }
 
         await _context.SaveChangesAsync();
@@ -125,5 +118,132 @@ public class UserService : IUserService
             .ToListAsync();
 
         return friends;
+    }
+
+    public async Task<FriendRequest> CreateFriendRequest(int userId, int potentialFriendId)
+    {
+        var existing = await _context.FriendshipRequests
+            .FirstOrDefaultAsync(fr =>
+                fr.RequestedId == potentialFriendId && fr.RequesterId == userId &&
+                fr.Status == FriendShipRequestsStatus.Pending);
+
+        if (existing != null)
+        {
+            throw new Exception(
+                "You have already sent a friend request to this user which the user has not yet accepted or declined");
+        }
+
+        var existsingFriendShip = await _context.Friendships
+            .Include(f => f.Friend)
+            .FirstOrDefaultAsync(f=>f.Friend.Id==potentialFriendId);
+
+        if (existsingFriendShip != null)
+        {
+            throw new Exception(
+                "You are already friends");
+        }
+
+        var newRequest = new FriendRequest()
+        {
+            RequestedId = potentialFriendId,
+            RequesterId = userId,
+            Status = FriendShipRequestsStatus.Pending,
+            RequestDate = DateTime.UtcNow
+        };
+
+        var saved = await _context.FriendshipRequests.AddAsync(newRequest);
+        await _context.SaveChangesAsync();
+
+        var refetched = await _context.FriendshipRequests
+            .Include(fr => fr.Requested)
+            .Include(fr => fr.Requester)
+            .FirstOrDefaultAsync(fr => fr.Id == saved.Entity.Id);
+
+        return refetched;
+    }
+
+    public async Task<FriendRequest> AcceptFriendRequest(int requestId, int userId)
+    {
+        var user = await this.GetUserById(userId);
+
+        if (user == null) throw new Exception($"User with id: {userId} was not found");
+
+        var friendRequest =
+            await _context.FriendshipRequests.Include(fr=>fr.Requester).FirstOrDefaultAsync(fr => fr.Id == requestId && fr.RequestedId == userId);
+
+        if (friendRequest == null) throw new Exception($"Request with id: {requestId} was not found");
+
+        friendRequest.Status = FriendShipRequestsStatus.Accepted;
+
+        var newFriendship1 = new Friendship()
+        {
+            Friend = friendRequest.Requester,
+            User = user,
+        };
+        
+        var newFriendship2 = new Friendship()
+        {
+            Friend = user,
+            User = friendRequest.Requester ,
+        };
+
+        await _context.Friendships.AddAsync(newFriendship1);
+        await _context.Friendships.AddAsync(newFriendship2);
+
+        await _context.SaveChangesAsync();
+        
+
+        return friendRequest;
+    }
+
+    public async Task<FriendRequest> DeclineFriendRequest(int requestId, int userId)
+    {
+        var request = await
+            _context.FriendshipRequests
+                .Include(fr=>fr.Requested)
+                .Include(fr=>fr.Requester)
+                .FirstOrDefaultAsync(fr => fr.Id == requestId && fr.RequestedId == userId && fr.Status == FriendShipRequestsStatus.Pending);
+
+        if (request == null) throw new Exception($"Request was not found");
+        if (request.Status == FriendShipRequestsStatus.Accepted || request.Status == FriendShipRequestsStatus.Declined)
+        {
+            throw new Exception($"Request must be in pending state");
+        }
+
+        request.Status = FriendShipRequestsStatus.Declined;
+
+        await _context.SaveChangesAsync();
+
+        return request;
+    }
+
+
+    public async Task<List<FriendRequest>> GetAllFriendRequests(int userId,
+        FriendShipRequestsStatus? status = FriendShipRequestsStatus.Pending)
+    {
+        var user = await this.GetUserById(userId);
+
+        if (user == null) throw new Exception($"User with id: {userId} was not found");
+        var friendRequests = await _context.FriendshipRequests
+            .Include(fr=>fr.Requested)
+            .Include(fr=>fr.Requester)
+            .Where(fr => fr.RequestedId == user.Id && fr.Status == status).ToListAsync();
+
+        return friendRequests;
+    }
+
+    public async Task DeleteFriendRequest(int requestId, int userId)
+    {
+        var user = await this.GetUserById(userId);
+
+        if (user == null) throw new Exception($"User with id: {userId} was not found");
+
+        var friendRequest =
+            await _context.FriendshipRequests.FirstOrDefaultAsync(fr => fr.Id == requestId && fr.RequesterId == userId && fr.Status == FriendShipRequestsStatus.Pending);
+
+        if (friendRequest == null) throw new Exception($"Request was not found");
+
+        _context.FriendshipRequests.Remove(friendRequest);
+        await _context.SaveChangesAsync();
     }
 }

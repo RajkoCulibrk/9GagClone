@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using _9GagClone.Data;
+using _9GagClone.Dtos;
 using _9GagClone.Helpers;
 using _9GagClone.Services.UserService;
 using AutoMapper;
@@ -86,12 +87,12 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FriendDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Authorize]
-    [HttpPost("add-remove-friend/{friendId}")]
+    [HttpPost("unfriend-user/{friendId}")]
     public async Task<IActionResult> AddRemoveFriend(int friendId)
     {
         var userId = User.GetUserId();
 
-        var user = await _userService.AddRemoveFriend(userId, friendId);
+        var user = await _userService.UnFriendUser(userId, friendId);
 
 
         return Ok(_mapper.Map<FriendDto>(user));
@@ -109,5 +110,63 @@ public class UsersController : ControllerBase
 
 
         return Ok(_mapper.Map<List<FriendDto>>(friends));
+    }
+    
+    
+    [Authorize]
+    [HttpPost("make-friend-request/{potentialFriendId}")]
+    public async Task<IActionResult> MakeFriendRequest(int potentialFriendId)
+    {
+        var userId = User.GetUserId();
+
+        var friendRequest = await _userService.CreateFriendRequest(userId,potentialFriendId);
+
+
+        return Ok(_mapper.Map<GetFriendShipRequestDto>(friendRequest));
+    }
+    
+    [Authorize]
+    [HttpPost("accept-friend-request/{requestId}")]
+    public async Task<IActionResult> AcceptFriendRequest(int requestId)
+    {
+        var userId = User.GetUserId();
+
+        var friendRequest = await _userService.AcceptFriendRequest(requestId,userId);
+
+        return Ok(_mapper.Map<GetFriendShipRequestDto>(friendRequest));
+    }
+    
+    [Authorize]
+    [HttpPost("decline-friend-request/{requestId}")]
+    public async Task<IActionResult> DeclineFriendRequest(int requestId)
+    {
+        var userId = User.GetUserId();
+
+        var friendRequest = await _userService.DeclineFriendRequest(requestId,userId);
+
+
+        return Ok(_mapper.Map<GetFriendShipRequestDto>(friendRequest));
+    }
+    
+    [Authorize]
+    [HttpDelete("delete-friend-request/{requestId}")]
+    public async Task<IActionResult> DeleteFriendRequest(int requestId)
+    {
+        var userId = User.GetUserId();
+
+        await _userService.DeleteFriendRequest(requestId,userId);
+        
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpGet("get-my-friend-requests")]
+    public async Task<IActionResult> DeleteFriendRequest()
+    {
+        var userId = User.GetUserId();
+
+        var friendRequests = await _userService.GetAllFriendRequests(userId);
+        
+        return Ok(_mapper.Map<List<GetFriendShipRequestDto>>(friendRequests));
     }
 }

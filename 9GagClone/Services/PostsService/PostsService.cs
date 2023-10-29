@@ -67,7 +67,7 @@ public class PostsService : IPostsService
         if (user == null) throw new Exception($"User with id: ${userId} was not found");
 
         var friend = await _context.Users.FirstOrDefaultAsync(u => u.Id == friendId);
-        if (user == null) throw new Exception($"User with id: ${userId} was not found");
+        if (friend == null) throw new Exception($"User with id: ${userId} was not found");
 
         this.CheckFriendshipRaiseError(user, friend);
 
