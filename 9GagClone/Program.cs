@@ -52,12 +52,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 string staticFilesDirectory = Path.Combine(app.Environment.ContentRootPath, "MyStaticFiles");
 if (!Directory.Exists(staticFilesDirectory))
