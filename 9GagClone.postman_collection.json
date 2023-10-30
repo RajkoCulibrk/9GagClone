@@ -1,0 +1,602 @@
+{
+	"info": {
+		"_postman_id": "d90cabc0-06d8-4a82-ac9c-e145d9a23fdc",
+		"name": "9GagClone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12824337"
+	},
+	"item": [
+		{
+			"name": "Get logged in user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4MjYyMDAzLCJleHAiOjE2OTg4NjY4MDMsImlhdCI6MTY5ODI2MjAwMywiaXNzIjoiWW91ckFwcCJ9.LPMjXGXI-l9cbZLK2csba9FNpvTWbYru-uFlJz0NEMo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"majmun@majmunovski.com\",\r\n    \"password\":\"Test123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5260/Auth/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"pizda\",\r\n  \"lastName\": \"materina\",\r\n  \"email\": \"pizda@materina.com\",\r\n  \"password\": \"Test123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5260/Auth/Register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Auth",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload profile picture",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4MjYyMDAzLCJleHAiOjE2OTg4NjY4MDMsImlhdCI6MTY5ODI2MjAwMywiaXNzIjoiWW91ckFwcCJ9.LPMjXGXI-l9cbZLK2csba9FNpvTWbYru-uFlJz0NEMo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/rajko/Downloads/OIP (5).jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5260/Users/upload-picture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"upload-picture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4MjYyMDAzLCJleHAiOjE2OTg4NjY4MDMsImlhdCI6MTY5ODI2MjAwMywiaXNzIjoiWW91ckFwcCJ9.LPMjXGXI-l9cbZLK2csba9FNpvTWbYru-uFlJz0NEMo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Majmun\",\r\n  \"lastName\": \"Marmun\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5260/Users/update-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"update-profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unfriend",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjI5NzQsImV4cCI6MTY5OTIyNzc3NCwiaWF0IjoxNjk4NjIyOTc0LCJpc3MiOiJZb3VyQXBwIn0.CK0dwhvoVO9xC_2KbH-FLIzzbpyLrtv7UiYlYg-cMOo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/unfriend-user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"unfriend-user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get friends",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjI5NjYsImV4cCI6MTY5OTIyNzc2NSwiaWF0IjoxNjk4NjIyOTY2LCJpc3MiOiJZb3VyQXBwIn0.bSgFOIDYGr5kF6PREwig7OpqHrba5KuGr3G6uDJPZ8Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/get-friends",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"get-friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjE3NjEsImV4cCI6MTY5OTIyNjU2MSwiaWF0IjoxNjk4NjIxNzYxLCJpc3MiOiJZb3VyQXBwIn0.Abr2om1QrQrZe_LYhHGlcQd5uWO5UDR03NhjF-DTCpU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "first",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "sadrzaj",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/rajko/Downloads/download (2).jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5260/Posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjI0MzUsImV4cCI6MTY5OTIyNzIzNSwiaWF0IjoxNjk4NjIyNDM1LCJpc3MiOiJZb3VyQXBwIn0.YSSl2pnK9vMF2USCqjGQ3miCEiglndA4ihpBMyJCnQk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get posts belonging to user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4MjYyMDAzLCJleHAiOjE2OTg4NjY4MDMsImlhdCI6MTY5ODI2MjAwMywiaXNzIjoiWW91ckFwcCJ9.LPMjXGXI-l9cbZLK2csba9FNpvTWbYru-uFlJz0NEMo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Posts/belonging-to/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts",
+						"belonging-to",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get posts liked by friend",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjI5NzQsImV4cCI6MTY5OTIyNzc3NCwiaWF0IjoxNjk4NjIyOTc0LCJpc3MiOiJZb3VyQXBwIn0.CK0dwhvoVO9xC_2KbH-FLIzzbpyLrtv7UiYlYg-cMOo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Posts/liked-by-friend/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts",
+						"liked-by-friend",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make friend request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MjI5NzQsImV4cCI6MTY5OTIyNzc3NCwiaWF0IjoxNjk4NjIyOTc0LCJpc3MiOiJZb3VyQXBwIn0.CK0dwhvoVO9xC_2KbH-FLIzzbpyLrtv7UiYlYg-cMOo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/make-friend-request/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"make-friend-request",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get my friend requests (made to me)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg1OTU4MDMsImV4cCI6MTY5OTIwMDYwMywiaWF0IjoxNjk4NTk1ODAzLCJpc3MiOiJZb3VyQXBwIn0.Un7kdJQiO37RuZZdM0USkP663S8ZUPNuvn1v73myvOo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/get-my-friend-requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"get-my-friend-requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept friend request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4NjIzMjcwLCJleHAiOjE2OTkyMjgwNzAsImlhdCI6MTY5ODYyMzI3MCwiaXNzIjoiWW91ckFwcCJ9.uI-P1DPYBsvwmgV7Ymn2jGbH55J_WNgmY_Ql_YdwNuM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/accept-friend-request/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"accept-friend-request",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decline friend request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MTIwMjksImV4cCI6MTY5OTIxNjgyOSwiaWF0IjoxNjk4NjEyMDI5LCJpc3MiOiJZb3VyQXBwIn0.bd4CtGqsc1YObjAm3PXQSnGNHuovxqyDVMVspFd9D30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/decline-friend-request/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"decline-friend-request",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete friend request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MTIzNDcsImV4cCI6MTY5OTIxNzE0NywiaWF0IjoxNjk4NjEyMzQ3LCJpc3MiOiJZb3VyQXBwIn0.JRTEImq346q5c_GczyjrgjgOHXLoT9C7Ms2iKqf3L0Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Users/delete-friend-request/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Users",
+						"delete-friend-request",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like or dislike a post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBpemRhQG1hdGVyaW5hLmNvbSIsIm5hbWVpZCI6IjMiLCJuYmYiOjE2OTg2MTIzNDcsImV4cCI6MTY5OTIxNzE0NywiaWF0IjoxNjk4NjEyMzQ3LCJpc3MiOiJZb3VyQXBwIn0.JRTEImq346q5c_GczyjrgjgOHXLoT9C7Ms2iKqf3L0Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reaction\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5260/Posts/like-dislike/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts",
+						"like-dislike",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get post by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1ham11bkBtYWptdW5vdnNraS5jb20iLCJuYW1laWQiOiIxIiwibmJmIjoxNjk4NjIxOTk5LCJleHAiOjE2OTkyMjY3OTksImlhdCI6MTY5ODYyMTk5OSwiaXNzIjoiWW91ckFwcCJ9.v86iXwErobENm0pzzfYJ1Bq4aXZEXcxHLpjaVJdkWBw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5260/Posts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5260",
+					"path": [
+						"Posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
