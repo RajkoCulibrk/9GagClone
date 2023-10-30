@@ -14,4 +14,6 @@ public class Post
     public DateTime? UpdatedAt { get; set; } 
 
     public string ImageUrl { get; set; } 
+    
+    public ICollection<UserPostReaction> Reactions { get; set; }
 }

@@ -14,4 +14,8 @@ public class GetPostDto
     public DateTime? UpdatedAt { get; set; } 
 
     public string ImageUrl { get; set; } 
+    
+    public int LikesCount { get; set; }
+    public int DislikesCount { get; set; }
+    public ReactionType? UserReaction { get; set; }
 }

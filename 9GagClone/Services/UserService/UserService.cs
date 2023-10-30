@@ -87,8 +87,15 @@ public class UserService : IUserService
             throw new Exception($"User with id: {friendId} was not found");
         }
 
-        var existingFriendship = user.Friends.FirstOrDefault(f => f.Friend == friend);
-        var existingFriendship2 = user.Friends.FirstOrDefault(f => f.Friend == user);
+        var existingFriendship = await _context.Friendships
+            .Include(f=>f.Friend)
+            .Include(f=>f.User)
+            .FirstOrDefaultAsync(f=>f.User == user && f.Friend == friend);
+        
+        var existingFriendship2 = await _context.Friendships
+            .Include(f=>f.Friend)
+            .Include(f=>f.User)
+            .FirstOrDefaultAsync(f=>f.User == friend && f.Friend == user);
 
         if (existingFriendship == null || existingFriendship2 == null)
         {
@@ -96,8 +103,8 @@ public class UserService : IUserService
         }
         else
         {
-            user.Friends.Remove(existingFriendship);
-            user.Friends.Remove(existingFriendship2);
+            _context.Friendships.Remove(existingFriendship);
+            _context.Friendships.Remove(existingFriendship2);
         }
 
         await _context.SaveChangesAsync();

@@ -14,8 +14,16 @@ public class AutoMapperProfiles : Profile
         CreateMap<Post, GetPostDto>()
             .ForMember(
                 dest => dest.User,
-                opt => opt.MapFrom(src => src.User
-                ));
+                opt => opt.MapFrom(src => src.User)
+            )
+            .ForMember(
+                dest => dest.LikesCount,
+                opt => opt.MapFrom(src => src.Reactions.Count(r => r.Reaction == ReactionType.Like))
+            )
+            .ForMember(
+                dest => dest.DislikesCount,
+                opt => opt.MapFrom(src => src.Reactions.Count(r => r.Reaction == ReactionType.Dislike))
+            );
         CreateMap<FriendRequest, GetFriendShipRequestDto>()
             .ForMember(dest => dest.Requester, opt => opt.MapFrom(src => src.Requester))
             .ForMember(dest => dest.Requested, opt => opt.MapFrom(src => src.Requested))

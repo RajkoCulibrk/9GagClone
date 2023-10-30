@@ -12,5 +12,7 @@ public interface IPostsService
     Task<List<Post>> GetAllPosts();
     Task<List<Post>> GetPostsMyFriendLikes(int userId, int friendId);
     Task<List<Post>> GetPostsOfAUser(int userId);
+    Task<UserPostReaction> GetUserReactionForPost(int userId, int postId);
+    Task<Post> LikeOrDislikeAPost(int userId, int postId, ReactionType reaction);
 
 }
