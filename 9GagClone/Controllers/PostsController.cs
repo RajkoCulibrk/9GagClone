@@ -32,6 +32,7 @@ public class PostsController : ControllerBase
         if (User.Identity.IsAuthenticated)
         {
             await EnrichUserReaction(postDto, userId);
+            await EnrichIsFriendsWithForSingePost(postDto, userId);
         }
 
         return Ok(_mapper.Map<GetPostDto>(post));
@@ -46,6 +47,7 @@ public class PostsController : ControllerBase
         if (User.Identity.IsAuthenticated)
         {
             await EnrichUserReaction(postDto, User.GetUserId());
+            await EnrichIsFriendsWithForSingePost(postDto, User.GetUserId());
         }
 
 
@@ -62,6 +64,7 @@ public class PostsController : ControllerBase
         {
             var userId = User.GetUserId();
             await EnrichUserReaction(postDtos, userId);
+            await EnrichIsFriendsWith(postDtos, userId);
         }
 
         return Ok(postDtos);
@@ -77,6 +80,7 @@ public class PostsController : ControllerBase
         {
             var loggedInUserId = User.GetUserId();
             await EnrichUserReaction(postDtos, loggedInUserId);
+            await EnrichIsFriendsWith(postDtos, User.GetUserId());
         }
 
         return Ok(postDtos);
@@ -92,6 +96,7 @@ public class PostsController : ControllerBase
         if (User.Identity.IsAuthenticated)
         {
             await EnrichUserReaction(postDtos, userId);
+            await EnrichIsFriendsWith(postDtos, userId);
         }
 
         return Ok(postDtos);
@@ -108,6 +113,7 @@ public class PostsController : ControllerBase
         if (User.Identity.IsAuthenticated)
         {
             await EnrichUserReaction(postDto, userId);
+            await EnrichIsFriendsWithForSingePost(postDto, userId);
         }
 
         return Ok(postDto);
@@ -132,5 +138,26 @@ public class PostsController : ControllerBase
                 post.UserReaction = reaction.Reaction;
             }
         }
+    }
+
+    private async Task EnrichIsFriendsWith(IEnumerable<GetPostDto> posts, int userId)
+    {
+        foreach (var post in posts)
+        {
+            var isFriendsWith = await _postsService.CheckIsFriendsWith(userId, post.User.Id);
+
+            post.User.IsFriendsWith = isFriendsWith;
+            
+        }
+    }
+
+    private async Task EnrichIsFriendsWithForSingePost(GetPostDto post, int userId)
+    {
+
+            var isFriendsWith = await _postsService.CheckIsFriendsWith(userId, post.User.Id);
+
+            post.User.IsFriendsWith = isFriendsWith;
+
+        
     }
 }

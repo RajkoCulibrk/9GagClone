@@ -142,7 +142,7 @@ public class UserService : IUserService
 
         var existsingFriendShip = await _context.Friendships
             .Include(f => f.Friend)
-            .FirstOrDefaultAsync(f=>f.Friend.Id==potentialFriendId);
+            .FirstOrDefaultAsync(f=>f.Friend.Id==potentialFriendId && f.UserId == userId);
 
         if (existsingFriendShip != null)
         {
@@ -235,6 +235,20 @@ public class UserService : IUserService
             .Include(fr=>fr.Requested)
             .Include(fr=>fr.Requester)
             .Where(fr => fr.RequestedId == user.Id && fr.Status == status).ToListAsync();
+
+        return friendRequests;
+    }
+
+    public async Task<List<FriendRequest>> GetAllFriendRequestsIMade(int userId,
+    FriendShipRequestsStatus? status = FriendShipRequestsStatus.Pending)
+    {
+        var user = await this.GetUserById(userId);
+
+        if (user == null) throw new Exception($"User with id: {userId} was not found");
+        var friendRequests = await _context.FriendshipRequests
+            .Include(fr => fr.Requested)
+            .Include(fr => fr.Requester)
+            .Where(fr => fr.RequesterId == user.Id && fr.Status == status).ToListAsync();
 
         return friendRequests;
     }

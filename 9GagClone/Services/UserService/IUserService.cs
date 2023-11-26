@@ -14,5 +14,6 @@ public interface IUserService
     Task<FriendRequest> AcceptFriendRequest(int requestId, int userId);
     Task<FriendRequest> DeclineFriendRequest(int requestId, int userId);
     Task<List<FriendRequest>> GetAllFriendRequests(int userId, FriendShipRequestsStatus? status = FriendShipRequestsStatus.Pending);
+    Task<List<FriendRequest>> GetAllFriendRequestsIMade(int userId, FriendShipRequestsStatus? status = FriendShipRequestsStatus.Pending);
     Task DeleteFriendRequest(int requestId, int userId);
 }

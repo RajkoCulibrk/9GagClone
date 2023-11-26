@@ -14,5 +14,6 @@ public interface IPostsService
     Task<List<Post>> GetPostsOfAUser(int userId);
     Task<UserPostReaction> GetUserReactionForPost(int userId, int postId);
     Task<Post> LikeOrDislikeAPost(int userId, int postId, ReactionType reaction);
+    Task<bool> CheckIsFriendsWith(int userId, int postId);
 
 }

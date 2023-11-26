@@ -74,7 +74,10 @@ public class PostsService : IPostsService
 
     public async Task<List<Post>> GetPostsMyFriendLikes(int userId, int friendId)
     {
-        var user = await _context.Users.Include(u => u.Friends).FirstOrDefaultAsync(u => u.Id == userId);
+        var user = await _context.Users
+            .Include(u => u.Friends)
+            .ThenInclude(f=>f.Friend)
+            .FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null) throw new Exception($"User with id: {userId} was not found");
 
         var friend = await _context.Users.FirstOrDefaultAsync(u => u.Id == friendId);
@@ -110,6 +113,28 @@ public class PostsService : IPostsService
         {
             throw new Exception($"You are not friends with user whose id is{friend.Id}");
         }
+    }
+
+    public async  Task<bool> CheckIsFriendsWith (int userId, int friendId)
+    {
+        var user = await _context.Users
+            .Include(u=>u.Friends)
+            .FirstOrDefaultAsync(u=>u.Id == userId);
+
+        if (user == null)
+        {
+            return false;
+        }
+
+
+        var foundFriend = user.Friends.FirstOrDefault(f => f.FriendId == friendId);
+
+        if(foundFriend == null)
+        {
+            return false;
+        }
+
+        return true;
     }
     
     public async Task<UserPostReaction> GetUserReactionForPost(int userId, int postId)

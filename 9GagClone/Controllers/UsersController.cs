@@ -107,9 +107,15 @@ public class UsersController : ControllerBase
         var userId = User.GetUserId();
 
         var friends = await _userService.GetFriends(userId);
+        var response = _mapper.Map<List<FriendDto>>(friends);
+
+        foreach (var friendship in response)
+        {
+            friendship.IsFriendsWith = true;
+        }
 
 
-        return Ok(_mapper.Map<List<FriendDto>>(friends));
+        return Ok(response);
     }
     
     
@@ -161,12 +167,24 @@ public class UsersController : ControllerBase
     
     [Authorize]
     [HttpGet("get-my-friend-requests")]
-    public async Task<IActionResult> DeleteFriendRequest()
+    public async Task<IActionResult> GetFriendRequestsMadeToMe()
     {
         var userId = User.GetUserId();
 
         var friendRequests = await _userService.GetAllFriendRequests(userId);
         
+        return Ok(_mapper.Map<List<GetFriendShipRequestDto>>(friendRequests));
+    }
+
+
+    [Authorize]
+    [HttpGet("get-friend-requests-i-made")]
+    public async Task<IActionResult> GetFriendRequestsMadeByMe()
+    {
+        var userId = User.GetUserId();
+
+        var friendRequests = await _userService.GetAllFriendRequestsIMade(userId);
+
         return Ok(_mapper.Map<List<GetFriendShipRequestDto>>(friendRequests));
     }
 }
